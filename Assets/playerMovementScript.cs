@@ -327,6 +327,8 @@ public class playerMovementScript : MonoBehaviour
             Vector3 pos = PlayerObject.transform.localPosition;  //REPLACE PlayerObject with whatever object or vector you want to be updated
 			pos.x = pos.x + (xPercent * Speed/40); // we use speed as a position scaler
 			PlayerObject.transform.localPosition = pos;
+			rb.velocity = transform.forward * speed;
+			moving = true;
 		}
 
 		//shoulder profile is set as "joystick"
