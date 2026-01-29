@@ -20765,7 +20765,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &712142165
 Transform:
   m_ObjectHideFlags: 0
@@ -34368,6 +34368,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1753909081480321250, guid: 2e2a109038b934af4b07c7844c3d2bac, type: 3}
+      propertyPath: PlayerObject
+      value: 
+      objectReference: {fileID: 1294384635}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36622,7 +36626,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -36707,7 +36711,7 @@ Transform:
   m_GameObject: {fileID: 1294384630}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 6.14, y: 0.65, z: 14.42}
+  m_LocalPosition: {x: 6.14, y: 1.01, z: 14.42}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -36732,7 +36736,6 @@ MonoBehaviour:
   moveDirection: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
   moving: 0
-  transform: {fileID: 0}
   rotate: 90
   pelletWin: 0
   PlayerObject: {fileID: 0}

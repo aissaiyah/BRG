@@ -21,7 +21,7 @@ public class playerMovementScript : MonoBehaviour
     public Vector3 moveDirection;
     public Rigidbody rb;
     public bool moving;
-    public Transform transform;
+  //  public Transform transform;
     public float rotate;
     public static int pelletCount;
     public static bool eatMode;
@@ -35,11 +35,12 @@ public class playerMovementScript : MonoBehaviour
     }
     void Start()
     {
+	    speed = 9;
 	    PlayerObject = GetComponent<Transform>();
         egStart();
         egBeginSession();
         rb = GetComponent<Rigidbody>();
-        transform = GetComponent<Transform>();
+       // transform = GetComponent<Transform>();
         speed = 9;
         moving = false;
         pelletWin = 492;// condition for ending the game via eating all pelletts
@@ -49,6 +50,7 @@ public class playerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+	    egGetSukiInput();
         if(pelletWin <= 1)// if 1 or no pellet left win the game load win scene
         {
             win = true;
@@ -58,20 +60,21 @@ public class playerMovementScript : MonoBehaviour
 
         if (Input.GetAxisRaw("Horizontal") > 0)// if left or right rotate the object and round to a whole number
         {
-            transform.rotation = Quaternion.Euler(0, rotate, 0);
-            rotate += Mathf.Ceil(1F);
+           // transform.rotation = Quaternion.Euler(0, rotate, 0);
+          //  rotate += Mathf.Ceil(1F);
         }
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
-            transform.rotation = Quaternion.Euler(0, rotate, 0);
-            rotate -= Mathf.Ceil(1F);
+           // transform.rotation = Quaternion.Euler(0, rotate, 0);
+           // rotate -= Mathf.Ceil(1F);
         }
+  
     }
 
     public void FixedUpdate()// move the player object at a certain speed
     {
 
-        transform.rotation = Quaternion.Euler(0, rotate, 0);
+       // transform.rotation = Quaternion.Euler(0, rotate, 0);
         if (moving)
         {
             speed = 9;
@@ -90,6 +93,16 @@ public class playerMovementScript : MonoBehaviour
             rb.velocity = -transform.forward * speed;
             moving = true;
         }
+        if (Input.GetKey(KeyCode.A))// control direction velocity is enforced
+        {
+	        rb.velocity = -transform.right * speed;
+	        moving = true;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+	        rb.velocity = transform.right * speed;
+	        moving = true;
+        }
 
         if (Input.GetKeyUp(KeyCode.W))// when not holding the button down stop moving and applying speed
         {
@@ -100,6 +113,16 @@ public class playerMovementScript : MonoBehaviour
         {
 
             moving = false;
+        }
+        if (Input.GetKeyUp(KeyCode.A))// when not holding the button down stop moving and applying speed
+        {
+
+	        moving = false;
+        }
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+
+	        moving = false;
         }
     }
     void OnTriggerEnter(Collider collider)// on collection with the 7th layer increase pellet by 10 and delete it
@@ -308,7 +331,7 @@ public class playerMovementScript : MonoBehaviour
 		// read the placement range input and move the cube
 		//elbow angle suki schema profile is set as "placement", but probably should use better name.
 		//In X-Z movement, can be used for Z-movement together with "joystick" for X
-		if (suki.RangeExists("placement"))  
+		/*if (suki.RangeExists("placement"))  
 		{
 			// we can use a range value as a placement to move left and right
 			float range = suki.GetRange("placement");
@@ -324,34 +347,71 @@ public class playerMovementScript : MonoBehaviour
 				xPercent = 0f;
 			}
 			// move the object
-            Vector3 pos = PlayerObject.transform.localPosition;  //REPLACE PlayerObject with whatever object or vector you want to be updated
-			pos.x = pos.x + (xPercent * Speed/40); // we use speed as a position scaler
-			PlayerObject.transform.localPosition = pos;
-			rb.velocity = transform.forward * speed;
+           // Vector3 pos = PlayerObject.transform.localPosition;  //REPLACE PlayerObject with whatever object or vector you want to be updated
+			//pos.x = pos.x + (xPercent * Speed/40); // we use speed as a position scaler
+			//PlayerObject.transform.localPosition = pos;
+			//rb.velocity = transform.forward * speed;
+			rb.velocity = transform.right * speed;
 			moving = true;
+		}*/
+		Vector3 moveDir = Vector3.zero;
+		float deadzone = 0.2f;
+// LEFT / RIGHT
+		if (suki.RangeExists("placementX"))
+		{
+			float xRange = suki.GetRange("placementX");
+			float xPercent = (xRange * 2f) - 1f;
+
+			if (Mathf.Abs(xPercent) < deadzone)
+				xPercent = 0f;
+
+			moveDir += transform.right * xPercent;
 		}
+
+// FORWARD / BACKWARD
+		if (suki.RangeExists("placementZ"))
+		{
+			float zRange = suki.GetRange("placementZ");
+			float zPercent = (zRange * 2f) - 1f;
+
+			if (Mathf.Abs(zPercent) < deadzone)
+				zPercent = 0f;
+
+			moveDir += transform.forward * zPercent;
+		}
+
+// Apply movement
+		rb.velocity = moveDir * speed;
+		moving = moveDir != Vector3.zero;
+
+
 
 		//shoulder profile is set as "joystick"
 		//In X-Z movement, can be used for X-movement togther with "placement" for Z.
-		if (suki.RangeExists("joystick"))
+		/*if (suki.RangeExists("joystick"))
 		{
-			// we can use a range value as a placement to move left and right
 			float range = suki.GetRange("joystick");
-			print("joystick min = " + suki.GetExtentMin("joystick"));
-			// convert 0f to 1f to -1f to 1f
-			float xPercent = (range * 2) - 1f;
-//			print("joysick mode:" + range + ":" + xPercent);
-			// move the object
+
+			// Convert 0–1 to -1–1
+			float xPercent = (range * 2f) - 1f;
+
+			// Deadzone
 			float deadzone = 0.2f;
-			if (xPercent > -deadzone && xPercent < deadzone)
-			{
+			if (Mathf.Abs(xPercent) < deadzone)
 				xPercent = 0f;
+
+			Vector3 moveDir = Vector3.zero;
+
+			// LEFT / RIGHT
+			if (Mathf.Abs(xPercent) > deadzone)
+			{
+				moveDir = transform.right * xPercent;
 			}
 
-			Vector3 pos = PlayerObject.transform.localPosition; //REPLACE PlayerObject with whatever object or vector you want to be updated
-			pos.y = pos.y + (xPercent * Speed/40); // we use speed as position scaler
-			PlayerObject.transform.localPosition = pos;
-		}
+			// Apply movement
+			rb.velocity = moveDir * speed;
+			moving = moveDir != Vector3.zero;
+		}*/
 
 		//moving in discrete steps/lanes
 		if (suki.SignalExists("moveLeft") && suki.SignalExists("moveRight"))
@@ -377,6 +437,7 @@ print("Moveleft= "+ moveLeft + ", Moverightt= "+ moveRight);
 				pos.x = (pos.x + 0.2f);
 			}
 			PlayerObject.transform.localPosition = pos; //REPLACE PlayerObject with whatever object or vector you want to be updated
+			PlayerObject.Translate(Vector3.right * speed * Time.deltaTime, Space.Self);
 			timeSinceLastLaneMove = 0f;
 
 		}
@@ -410,6 +471,7 @@ print("Moveleft= "+ moveLeft + ", Moverightt= "+ moveRight);
 	}
 	void checkRange()
 	{
+		/*
 		float maxX=4f, maxY= 3f;
 		Vector3 pos = PlayerObject.transform.localPosition;  //REPLACE PlayerObject with whatever object or vector you want to be updated
 		if (pos.x> maxX)
@@ -420,7 +482,7 @@ print("Moveleft= "+ moveLeft + ", Moverightt= "+ moveRight);
 			pos.y=maxY;
 		if (pos.y< -maxY)
 			pos.y= -maxY;
-		PlayerObject.transform.localPosition = pos;
+		PlayerObject.transform.localPosition = pos;*/
 
 	}
 
