@@ -42,7 +42,7 @@
                     "Simple Balance\\LR_SideBending.suki",
                     "Simple Balance\\LR_WeightShifting.suki"
                 ],
-                "value_": "default.suki",
+                "value_": "R_Hand.suki",
                 "name": "Suki file",
                 "alias": "Motion Tracking Mode",
                 "description": "Which body motion to track to control the game.",

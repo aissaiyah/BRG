@@ -28,17 +28,19 @@ public class playerMovementScript : MonoBehaviour
     public int pelletWin;
     public static bool win;
     public Transform PlayerObject;
+    [SerializeField] float xThreshold = .3f;
+    [SerializeField] float yThreshold = .3f;
+    
+    SukiInput sukiInput;
     // Start is called before the first frame update
     public void Awake()
     {
-	    egAwake();
+        sukiInput = SukiInput.Instance;
     }
     void Start()
     {
 	    speed = 9;
 	    PlayerObject = GetComponent<Transform>();
-        egStart();
-        egBeginSession();
         rb = GetComponent<Rigidbody>();
        // transform = GetComponent<Transform>();
         speed = 9;
@@ -50,7 +52,6 @@ public class playerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-	    egGetSukiInput();
         if(pelletWin <= 1)// if 1 or no pellet left win the game load win scene
         {
             win = true;
@@ -83,46 +84,57 @@ public class playerMovementScript : MonoBehaviour
         {
             speed = 0;
         }
-        if (Input.GetKey(KeyCode.W))// control direction velocity is enforced
+        
+        var input = Vector2.zero;
+
+        if (sukiInput.Location2DExists("righthand"))
+        {
+            input = sukiInput.GetLocation2D("righthand");
+            input = input * 2 - new Vector2(1, 1);
+        }
+        print("2DInput = "  + input.ToString());
+        print("2DExtent max = " + sukiInput.GetExtentMax2D("righthand") + " min = " + sukiInput.GetExtentMin("righthand"));
+        
+        if (Input.GetKey(KeyCode.W) || input.y > yThreshold)// control direction velocity is enforced
         {
             rb.velocity = transform.forward * speed;
             moving = true;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) || input.y < -yThreshold)
         {
             rb.velocity = -transform.forward * speed;
             moving = true;
         }
-        if (Input.GetKey(KeyCode.A))// control direction velocity is enforced
+        if (Input.GetKey(KeyCode.A) || input.x < -xThreshold)// control direction velocity is enforced
         {
 	        rb.velocity = -transform.right * speed;
 	        moving = true;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || input.x > xThreshold)
         {
 	        rb.velocity = transform.right * speed;
 	        moving = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.W))// when not holding the button down stop moving and applying speed
+        if (Input.GetKeyUp(KeyCode.W) || (input.y < -yThreshold && input.y > -yThreshold))// when not holding the button down stop moving and applying speed
         {
 
-            moving = false;
+            //moving = false;
         }
-        if (Input.GetKeyUp(KeyCode.S))
+        if (Input.GetKeyUp(KeyCode.S) || (input.y < -yThreshold && input.y > -yThreshold))
         {
 
-            moving = false;
+            //moving = false;
         }
-        if (Input.GetKeyUp(KeyCode.A))// when not holding the button down stop moving and applying speed
+        if (Input.GetKeyUp(KeyCode.A) || (input.x < xThreshold && input.x > -xThreshold))// when not holding the button down stop moving and applying speed
         {
 
-	        moving = false;
+	      //  moving = false;
         }
-        if (Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(KeyCode.D) || (input.x < xThreshold && input.x > -xThreshold))
         {
 
-	        moving = false;
+	       // moving = false;
         }
     }
     void OnTriggerEnter(Collider collider)// on collection with the 7th layer increase pellet by 10 and delete it
@@ -143,355 +155,4 @@ public class playerMovementScript : MonoBehaviour
             pelletWin -= 1;
         }
     }
-
-    void OnApplicationQuit()
-    {
-	    egEndSession();
-    }
-
-/// BEGIN ENABLEGAMES REQUIRED CODE
-	/// </summary>
-	/// 
-	/// 
-	/// 
-	public ParameterHandler ph; 
-
-	public Enablegames.SkeletonData Skeleton;  		//holds the body data for the avatar
-
-	public RoboticData roboticData;
-	private SukiInput suki = null; //maps avatar body data to game input
-
-	//egFloat,etc. are custom variables that can be attached to parameters in the settings menu and portal
-	//They are attached to the parameters in the egAwake function below.
-	egFloat Speed=1.0f;		//speed of player
-	egFloat Gravity=-1.0f;	//falling cylinder's gravity (-1.0 is unity default)
-	egInt GameLength=300000; 	//in seconds
-
-	// Use this for initialization
-	void egStart () {
-		suki = SukiInput.Instance;
-		suki.Skeleton = Skeleton;
-		Debug.Log("suki.skel = "+ suki.Skeleton);
-		// Bind Speed to the variable "STARTING SPEED" from the settings menu
-		//NOTE:Binding will be skipped if ParameterHandler not loaded (i.e. running this scene 
-		//without first running MainMenu scene)
-		//Also, parameters must be added to DefaultParameters.json file (located in StreamingAssets folder).
-	}
-
-	bool egStarted = false;
-
-	bool egInitialized()
-	{
-		if (egStarted)
-			return true;
-		print("egInitialized: "+ egStarted);
-		if (ph == null)
-			return false;	
-		GameParameters gp = (GameParameters)ParameterHandler.Instance.AllParameters[0];
-		//if (gp == null || gp.initialized == false)
-			//return false;
-		egStart();
-		if (suki == null)
-			return false;
-		if (suki.Skeleton == null)
-			return false;
-		egStarted = true;
-
-		return true;	
-	
-	}
-	
-	NetworkSkeletonOSC skeletonOSC = null;
-	AvatarSkeleton avatarSkeleton = null;
-	// Use this for initialization 
-	void egAwake () {
-		ph = ParameterHandler.Instance;
-        	string playerID = PlayerPrefs.GetString(_LAST_USED_USER_NAME);
-		GameParameters gp = (GameParameters)ParameterHandler.Instance.AllParameters[0];
-		print("egBeginSession:playerID = "+ playerID);
-//		Session session = SessionCreator.Instance.CurrentSession;
-        	SessionCreator.Instance.SessionName = playerID;
-        	SessionCreator.Instance.CreateSession();
-
-		print ("egAwake");
-		// initialize SUKI
-		if (Skeleton == null)
-			Skeleton = GameObject.Find ("Tracking Avatar").GetComponentInChildren<SkeletonData> ();
-		avatarSkeleton = GameObject.Find ("Tracking Avatar").GetComponent<AvatarSkeleton> ();
-		skeletonOSC = FindObjectOfType<NetworkSkeletonOSC>();
-			
-//		suki = SukiInput.Instance;
-//		suki.Skeleton = Skeleton;
-//		Debug.Log("suki.skel = "+ suki.Skeleton);
-
-/*
-		suki.Skeleton.roboticData = roboticData;
-		if (roboticData==null)
-			roboticData = new RoboticData();
-		if (roboticData.data.Count==0){
-			RoboticDatum rd = new RoboticDatum();
-			rd.Value = 0f;
-			roboticData.data["R1"]=rd;
-		}
-
-		suki.Skeleton.roboticData = roboticData;
-*/		
-
-		print ("egAwake:Trying to connect...");
-
-		// connect the client skeleton to the server skeleton (running in the enablegames launcher app)
-		string address = PlayerPrefs.GetString(egParameterStrings.LAUNCHER_ADDRESS);
-		print ("Address= " + address);
-		print ("egAwake:after connect.");
-
-
-	}
-
-	// Update is called once per frame
-	void egUpdate () {
-		if (!egInitialized())
-			return;
-		// Return to main menu
-		
-		if (Input.GetKeyDown(KeyCode.A))
-		{
-			roboticData.data["R1"].Value -= 1f;
-			Debug.Log("Left key: " + suki.Skeleton.roboticData.data["R1"].Value);
-		}
-
-
-		if (Input.GetKeyDown(KeyCode.S))
-		{
-			roboticData.data["R1"].Value += 1f;
-			Debug.Log("Right key: " + suki.Skeleton.roboticData.data["R1"].Value);
-		}
-
-
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			//EndGame();
-		}
-	}
-	private const string _LAST_USED_USER_NAME = "lastUsedUserName";
-
-	void egBeginSession()
-	{
-
-		print("egBeginSession:Tracker");
-		Tracker.Instance.BeginTracking ();
-	}
-
-	void egEndSession()
-	{
-		Tracker.Instance.Interrupt((int)egEvent.Type.CustomEvent, "GameEnd");
-		Tracker.Instance.StopTracking(); //writes footer
-	}
-
-	float timeSinceLastLaneMove = 0f;
-	/// <summary>
-	/// Main game loop. Checks SUKI Input, updates game time, etc.
-	/// </summary>
-	private void egGetSukiInput()
-	{
-		if (!suki)
-			return;
-		//print ("egGetSukiInput-------------------");
-		timeSinceLastLaneMove += Time.deltaTime;
-		/*
-			float duration = Time.time - startTime;
-			if (duration >= GameLength)  //is game time over?
-				showGameOverPanel ();
-			timeSinceLastLaneMove += Time.deltaTime;
-			*/
-
-		//Get translated game input from SUKI
-		// no-op if SUKI is not currently giving us input data
-
-		/*NO LONGER NEED NETSKELETON TO KNOW IF CONNECTED..USES MOVEMENT FROM T-POSE INSTEAD (suki.Updating)
-		//print("Game:FixedUpdate:" + suki.Updating);
-		if (netskeleton && netskeleton.moving)
-		{
-			print ("netskel moving:" + suki.Skeleton.Moving);
-			suki.Skeleton.moving = true;
-			suki.Skeleton.resetMinMax = true;
-		}
-		*/
-		if (!suki.Updating)
-		{
-				print("Game:suki not updating.");
-			return;
-		}
-				print("Game:suki updating.");
-//		return;
-		///
-		/// Read the various Suki inputs (depending on what suki file was loaded)
-		/// Below contains examples for different types of input, including joint angles, bone positions, etc.
-		/// 
-		/// 
-		// read the placement range input and move the cube
-		//elbow angle suki schema profile is set as "placement", but probably should use better name.
-		//In X-Z movement, can be used for Z-movement together with "joystick" for X
-		/*if (suki.RangeExists("placement"))  
-		{
-			// we can use a range value as a placement to move left and right
-			float range = suki.GetRange("placement");
-			print("placement min = " + suki.GetExtentMin("placement"));
-//			print("placement max = " + suki.GetExtentMax("placement"));
-			// convert 0f to 1f to -1f to 1f
-			float xPercent = (range * 2) - 1f;
-//			print("placement mode:" + range + ":" + xPercent);
-			// add a deadzone of +/- %
-			float deadzone = 0.2f;
-			if (xPercent > -deadzone && xPercent < deadzone)
-			{
-				xPercent = 0f;
-			}
-			// move the object
-           // Vector3 pos = PlayerObject.transform.localPosition;  //REPLACE PlayerObject with whatever object or vector you want to be updated
-			//pos.x = pos.x + (xPercent * Speed/40); // we use speed as a position scaler
-			//PlayerObject.transform.localPosition = pos;
-			//rb.velocity = transform.forward * speed;
-			rb.velocity = transform.right * speed;
-			moving = true;
-		}*/
-		Vector3 moveDir = Vector3.zero;
-		float deadzone = 0.2f;
-// LEFT / RIGHT
-		if (suki.RangeExists("placementX"))
-		{
-			float xRange = suki.GetRange("placementX");
-			float xPercent = (xRange * 2f) - 1f;
-
-			if (Mathf.Abs(xPercent) < deadzone)
-				xPercent = 0f;
-
-			moveDir += transform.right * xPercent;
-		}
-
-// FORWARD / BACKWARD
-		if (suki.RangeExists("placementZ"))
-		{
-			float zRange = suki.GetRange("placementZ");
-			float zPercent = (zRange * 2f) - 1f;
-
-			if (Mathf.Abs(zPercent) < deadzone)
-				zPercent = 0f;
-
-			moveDir += transform.forward * zPercent;
-		}
-
-// Apply movement
-		rb.velocity = moveDir * speed;
-		moving = moveDir != Vector3.zero;
-
-
-
-		//shoulder profile is set as "joystick"
-		//In X-Z movement, can be used for X-movement togther with "placement" for Z.
-		/*if (suki.RangeExists("joystick"))
-		{
-			float range = suki.GetRange("joystick");
-
-			// Convert 0–1 to -1–1
-			float xPercent = (range * 2f) - 1f;
-
-			// Deadzone
-			float deadzone = 0.2f;
-			if (Mathf.Abs(xPercent) < deadzone)
-				xPercent = 0f;
-
-			Vector3 moveDir = Vector3.zero;
-
-			// LEFT / RIGHT
-			if (Mathf.Abs(xPercent) > deadzone)
-			{
-				moveDir = transform.right * xPercent;
-			}
-
-			// Apply movement
-			rb.velocity = moveDir * speed;
-			moving = moveDir != Vector3.zero;
-		}*/
-
-		//moving in discrete steps/lanes
-		if (suki.SignalExists("moveLeft") && suki.SignalExists("moveRight"))
-		{
-			// we can use a pair of triggers to move left or move right
-			bool moveLeft = suki.GetSignal("moveLeft");
-			bool moveRight = suki.GetSignal("moveRight");
-print("Moveleft= "+ moveLeft + ", Moverightt= "+ moveRight);
-			Vector3 pos = PlayerObject.transform.localPosition;
-
-			// only if there is a direction to move, and it's been some time since our last move
-			// Instead of changing the speed of the movement here we change the pause between movements
-			if ((!moveLeft && !moveRight) || (moveLeft && moveRight) || (timeSinceLastLaneMove < 1 / Speed)) // we use speed as a time scaler
-			{
-				return;
-			}
-			else if (moveLeft)
-			{
-				pos.x = (pos.x - 0.2f);
-			}
-			else if (moveRight)
-			{
-				pos.x = (pos.x + 0.2f);
-			}
-			PlayerObject.transform.localPosition = pos; //REPLACE PlayerObject with whatever object or vector you want to be updated
-			PlayerObject.Translate(Vector3.right * speed * Time.deltaTime, Space.Self);
-			timeSinceLastLaneMove = 0f;
-
-		}
-		//using foot or hand x-y position to control player position
-		//You could also use each independently as Kollect does to control the hand/footprints.
-		if (suki.Location2DExists ("leftfoot") || suki.Location2DExists ("rightfoot") || suki.Location2DExists ("lefthand") || suki.Location2DExists ("righthand")) {
-			Vector2 fpos;
-			if (suki.Location2DExists ("leftfoot"))
-				fpos = suki.GetLocation2D ("leftfoot");
-			else if (suki.Location2DExists ("rightfoot"))
-				fpos = suki.GetLocation2D ("rightfoot");
-			else if (suki.Location2DExists ("lefthand"))
-				fpos = suki.GetLocation2D ("lefthand");
-			else if (suki.Location2DExists ("righthand"))
-				fpos = suki.GetLocation2D ("righthand");
-			else
-				fpos = new Vector2 ();
-			print("fpos= "+ fpos);
-			Vector3 pos = PlayerObject.transform.localPosition; //REPLACE PlayerObject with whatever object or vector you want to be updated
-			// convert 0f to 1f to -1f to 1f
-			float xPercent = (fpos.x * 2) - 1f;
-			float yPercent = (fpos.y * 2) - 1f;
-			float weight = 10f;
-			pos.x = (pos.x * (weight-1) + (xPercent * Speed*4))/weight; // we use speed as position scaler
-			pos.y = (pos.y * (weight-1) + (yPercent * Speed*4))/weight; // we use speed as position scaler
-			//pos.x = pos.x + (fpos.x * Speed/40); // we use speed as position scaler
-			//PlayerObject.transform.position = Vector3.Lerp(LeftFoot.transform.position, new Vector3(newX, newY, newZ), 1f);
-			PlayerObject.transform.localPosition = pos;
-		}
-		checkRange ();
-	}
-	void checkRange()
-	{
-		/*
-		float maxX=4f, maxY= 3f;
-		Vector3 pos = PlayerObject.transform.localPosition;  //REPLACE PlayerObject with whatever object or vector you want to be updated
-		if (pos.x> maxX)
-			pos.x=maxX;
-		if (pos.x< -maxX)
-			pos.x= -maxX;
-		if (pos.y> maxY)
-			pos.y=maxY;
-		if (pos.y< -maxY)
-			pos.y= -maxY;
-		PlayerObject.transform.localPosition = pos;*/
-
-	}
-
-	///
-	/// END ENABLEGAMES REQUIRED CODE
-	///////////////////////////////////////////////////////////////////////////////
-	public void ToggleHand()
-	{
-		avatarSkeleton.handTracking = !avatarSkeleton.handTracking;
-		skeletonOSC.handTracking = !skeletonOSC.handTracking;
-	}
 }
