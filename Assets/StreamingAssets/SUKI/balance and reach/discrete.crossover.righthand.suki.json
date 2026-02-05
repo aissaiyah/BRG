@@ -1,5 +1,5 @@
 {
-    "SchemaName": "moveLeft",
+    "SchemaName": "moveRight",
     "SchemaResolution": "Signal",
     "SchemaDevice": "Kinect",
     "SchemaMetric": "MultiNodeVectorBetween",
@@ -9,7 +9,7 @@
     ],
     "CalculationInfo": null,
     "ReductionInfo": {
-      "reductionOperator": "XValue"
+        "reductionOperator": "XValue"
     },
     "ConditionInfo": {
       "conditionOperator": "LessThan",

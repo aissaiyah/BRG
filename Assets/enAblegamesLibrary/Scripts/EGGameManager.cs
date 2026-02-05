@@ -28,7 +28,7 @@ public class egGameManager : MonoBehaviour
 	public int score = 0;  // only non-zero scores show up on portal
 
 	public string MenuScene = "eag_MainMenu";
-	public string GameScene = "GameScene";
+	public string GameScene = "eag_KickCubeGame";
 
 	public Transform PlayerObject;  //the player object
 	float startTime; //start time of game

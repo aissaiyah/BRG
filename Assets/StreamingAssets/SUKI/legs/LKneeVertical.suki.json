@@ -1,6 +1,5 @@
 {
     "_id": "5905235c04738f5c22da7110",
-
     "SchemaName": "placement",
     "SchemaResolution": "Range",
     "SchemaDevice": "Kinect",
@@ -16,10 +15,9 @@
     "ConditionInfo": null,
     "FloatBoundsInfo": {
         "lowBounds": -0.3,
-        "highBounds": 0.5,
-        "reverse":true
+        "highBounds": 0.3,
+        "reverse": false,
         "useExtents": true
-
     },
     "Vector2BoundsInfo": null,
     "Vector3BoundsInfo": null

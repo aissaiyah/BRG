@@ -13,12 +13,12 @@
     "FloatBoundsInfo": null,
     "Vector2BoundsInfo": {
         "lowBounds": {
-            "x": 100,
-            "y": 100
+            "x": 0,
+            "y": 0
         },
         "highBounds": {
-            "x": -100,
-            "y": -100
+            "x": 0,
+            "y": 0
         },
         "useExtents": true
     },

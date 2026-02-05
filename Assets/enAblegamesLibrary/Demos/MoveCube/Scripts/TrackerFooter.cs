@@ -98,8 +98,8 @@ public class FooterMessage : EnableSerializableValue
 //        if (player != null)
 		{
 			//pointsSystem Scorer = player.GetComponent<pointsSystem>();
-			egGame Scorer = GameObject.Find ("PlayerMovementScript").GetComponent<egGame> (); //placeholder, change it with the scipt where the score is kept
-			score = playerMovementScript.pelletCount;
+			egGame Scorer = GameObject.Find ("GameLogic").GetComponent<egGame> (); //placeholder, change it with the scipt where the score is kept
+           
 			if (Scorer == null) {
 				score = 1; //Scorer.points; //zero score won't show footer info on web portal
 				playerPerformance = "Good"; // Resume the performace

@@ -18,9 +18,10 @@
         },
         "highBounds": {
             "x": 0,
-            "y": 0
+            "y": 0.2
         },
-        "useExtents": true
+        "useExtents": true,
+        "reverse": true
     },
     "Vector3BoundsInfo": null
 }

@@ -14,6 +14,7 @@
     },
     "ConditionInfo": {
         "conditionOperator": "GreaterThan",
+        "scalarOperand": 0.2,
         "extentPercentage": 0.1
     },
     "FloatBoundsInfo": null,

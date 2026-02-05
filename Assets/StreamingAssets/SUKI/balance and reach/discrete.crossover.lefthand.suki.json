@@ -1,5 +1,5 @@
 {
-    "SchemaName": "moveRight",
+    "SchemaName": "moveLeft",
     "SchemaResolution": "Signal",
     "SchemaDevice": "Kinect",
     "SchemaMetric": "MultiNodeVectorBetween",

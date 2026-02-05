@@ -14,9 +14,9 @@
     },
     "ConditionInfo": null,
     "FloatBoundsInfo": {
-        "lowBounds": -0.5,
-        "highBounds": 0.5
-        "reverse":false
+        "lowBounds": -0.05,
+        "highBounds": 0.05,
+        "reverse": false,
         "useExtents": true
     },
     "Vector2BoundsInfo": null,
