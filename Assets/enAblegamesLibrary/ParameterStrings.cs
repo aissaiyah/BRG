@@ -11,4 +11,9 @@ public class ParameterStrings
 {
     public static string STARTING_SPEED = "Player Starting Speed";
 	public static string GRAVITY = "Gravity";
+	public static string InkyMoveSpeed = "InkyMoveSpeed";
+	public static string BlinkyMoveSpeed = "BlinkyMoveSpeed";
+	public static string PinkyMoveSpeed = "PinkyMoveSpeed";
+	public static string ClydeMoveSpeed = "ClydeMoveSpeed";
+	public static string PlayerMoveSpeed = "PlayerMoveSpeed";
 }

@@ -19,7 +19,10 @@ public class GMScript : MonoBehaviour
     {
         score.text = "Highscore: " + playerMovementScript.pelletCount;// change text to include numerical score in highscore
 
-
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         if (playerMovementScript.win)// if the game ended print high score and new position
         {
             score.text = "Your Highscore is: " + playerMovementScript.pelletCount;

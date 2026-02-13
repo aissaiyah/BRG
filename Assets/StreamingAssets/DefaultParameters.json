@@ -91,7 +91,7 @@
                 "description": "Starting speed for the player",
                 "$type": "RangeParameter",
                 "$id": "7"
-            }
+            },
             {
                 "min_": -10.0,
                 "max_": -0.1,
@@ -102,8 +102,62 @@
                 "description": "Falling speed",
                 "$type": "RangeParameter",
                 "$id": "8"
-            }
-
+            },
+          {
+            "min_": 0.0,
+            "max_": 8.0,
+            "value_": 4.93,
+            "tick_": 1.0,
+            "name": "InkyMoveSpeed",
+            "alias": "InkyMoveSpeed",
+            "description": "Controls the move speed of Inky the Cyan Ghost",
+            "$type": "RangeParameter",
+            "$id": "17"
+          },
+          {
+            "min_": 0.0,
+            "max_": 8.0,
+            "value_": 5.93,
+            "tick_": 1.0,
+            "name": "PinkyMoveSpeed",
+            "alias": "PinkyMoveSpeed",
+            "description": "Controls the move speed of Pinky the pink Ghost",
+            "$type": "RangeParameter",
+            "$id": "18"
+          },
+          {
+            "min_": 0.0,
+            "max_": 8.0,
+            "value_": 7.08,
+            "tick_": 1.0,
+            "name": "BlinkyMoveSpeed",
+            "alias": "BlinkyMoveSpeed",
+            "description": "Controls the move speed of Blinky the Red Ghost",
+            "$type": "RangeParameter",
+            "$id": "19"
+          },
+          {
+            "min_": 0.0,
+            "max_": 8.0,
+            "value_": 6.4,
+            "tick_": 1.0,
+            "name": "ClydeMoveSpeed",
+            "alias": "ClydeMoveSpeed",
+            "description": "Controls the move speed of Clyde the orange Ghost",
+            "$type": "RangeParameter",
+            "$id": "20"
+          },
+          {
+            "min_": 0.0,
+            "max_": 24.0,
+            "value_": 5.0,
+            "tick_": 1.0,
+            "name": "PlayerMoveSpeed",
+            "alias": "PlayerMoveSpeed",
+            "description": "Controls the move speed of Player",
+            "$type": "RangeParameter",
+            "$id": "30"
+          }
         ]
     },
     "parameters": {
@@ -127,6 +181,21 @@
         },
         "Enable Suki Extents": {
             "$ref": "9"
-        }
+        },
+      "InkyMoveSpeed": {
+        "$ref": "17"
+      },
+      "BlinkyMoveSpeed": {
+        "$ref": "18"
+      },
+      "PinkyMoveSpeed": {
+        "$ref": "19"
+      },
+      "ClydeMoveSpeed": {
+        "$ref": "20"
+      },
+      "PlayerMoveSpeed": {
+        "$ref": "30"
+      }
     }
 }

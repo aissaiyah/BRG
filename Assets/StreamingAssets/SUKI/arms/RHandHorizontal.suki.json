@@ -14,8 +14,8 @@
     },
     "ConditionInfo": null,
     "FloatBoundsInfo": {
-        "lowBounds": -0.6,
-        "highBounds": -0.4,
+        "lowBounds": -0.5,
+        "highBounds": 0.3,
         "reverse": true,
         "useExtents": true
     },

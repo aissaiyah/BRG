@@ -26898,7 +26898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &976068362
 Transform:
   m_ObjectHideFlags: 0
@@ -27528,7 +27528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1002988986
 Transform:
   m_ObjectHideFlags: 0
@@ -59171,6 +59171,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 294152000456871509, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530015780259517167, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.4017
+      objectReference: {fileID: 0}
     - target: {fileID: 1839317843701850776, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.831598
@@ -59212,6 +59220,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4602610548616428762, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
+      propertyPath: Speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4602610548616428762, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1294384635}
@@ -59232,6 +59244,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2020038019}
     - target: {fileID: 6794136056096579098, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
+      propertyPath: Speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6794136056096579098, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
+      propertyPath: front
+      value: 
+      objectReference: {fileID: 1002988986}
+    - target: {fileID: 6794136056096579098, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1294384635}
@@ -59239,9 +59259,17 @@ PrefabInstance:
       propertyPath: CornerBlinky
       value: 
       objectReference: {fileID: 339217708}
+    - target: {fileID: 6819979818426891970, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7296389468407946244, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
       propertyPath: m_Name
       value: EnemyHolder
+      objectReference: {fileID: 0}
+    - target: {fileID: 7296389468407946244, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8435071396897957462, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
       propertyPath: front
@@ -59255,6 +59283,14 @@ PrefabInstance:
       propertyPath: CornerPinky
       value: 
       objectReference: {fileID: 261973737}
+    - target: {fileID: 8688229932688079560, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9172503045416578464, guid: 0c952e03159e38445aa239cdb5d17a91, type: 3}
+      propertyPath: m_Speed
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

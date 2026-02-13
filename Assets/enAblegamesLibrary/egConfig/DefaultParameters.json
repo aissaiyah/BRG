@@ -133,6 +133,19 @@
                 "$type": "RangeParameter",
                 "$id": "23"
             },
+          {
+            "min_": 0.0,
+            "max_": 8.0,
+            "value_": 4.93,
+            "tick_": 1.0,
+            "name": "InkyMoveSpeed",
+            "alias": "InkyMoveSpeed",
+            "description": "Controls the move speed of Inky the Cyan Ghost",
+            "$type": "RangeParameter",
+            "$id": "17"
+          },
+          
+          
   	    {
             	 "value_": false,
         	 "gameObjectsToactivateName": null,
@@ -177,6 +190,9 @@
         },
     	"Right Hand Mode": {
     	    "$ref": "31"
-    	}
+    	},
+      "Inky Move Speed": {
+        "$ref": "17"
+      }
     }
 }

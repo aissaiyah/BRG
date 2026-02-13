@@ -39,14 +39,15 @@ public class playerMovementScript : MonoBehaviour
     }
     void Start()
     {
-	    speed = 9;
 	    PlayerObject = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
        // transform = GetComponent<Transform>();
-        speed = 9;
+      ///  speed = 9;
         moving = false;
         pelletWin = 492;// condition for ending the game via eating all pelletts
-
+        egFloat PlayerSpeed = 5f;
+        VariableHandler.Instance.Register(ParameterStrings.PlayerMoveSpeed, PlayerSpeed);
+        speed = PlayerSpeed;
     }
 
     // Update is called once per frame
@@ -78,7 +79,7 @@ public class playerMovementScript : MonoBehaviour
        // transform.rotation = Quaternion.Euler(0, rotate, 0);
         if (moving)
         {
-            speed = 9;
+            speed = 5;
         }
         if (!moving)
         {
@@ -97,22 +98,22 @@ public class playerMovementScript : MonoBehaviour
         
         if (Input.GetKey(KeyCode.W) || input.y > yThreshold)// control direction velocity is enforced
         {
-            rb.velocity = transform.forward * speed;
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, speed) ;
             moving = true;
         }
         if (Input.GetKey(KeyCode.S) || input.y < -yThreshold)
         {
-            rb.velocity = -transform.forward * speed;
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, -speed) ;
             moving = true;
         }
         if (Input.GetKey(KeyCode.A) || input.x < -xThreshold)// control direction velocity is enforced
         {
-	        rb.velocity = -transform.right * speed;
+            rb.velocity = new Vector3(speed , rb.velocity.y,rb.velocity.z ) ;
 	        moving = true;
         }
         if (Input.GetKey(KeyCode.D) || input.x > xThreshold)
         {
-	        rb.velocity = transform.right * speed;
+            rb.velocity = new Vector3(-speed , rb.velocity.y,rb.velocity.z ) ;
 	        moving = true;
         }
 

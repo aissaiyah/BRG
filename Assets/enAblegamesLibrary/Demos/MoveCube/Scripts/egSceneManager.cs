@@ -8,7 +8,7 @@ public class egSceneManager : MonoBehaviour
 {
 
     public static UnityEvent OnSceneChange = new UnityEvent();
-	public string GameSceneName  = "eag_MoveCubeGame";
+	public string GameSceneName  = "LevelSelect";
 
     private static egSceneManager instance;
     public static egSceneManager Instance

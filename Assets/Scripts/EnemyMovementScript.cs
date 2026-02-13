@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Enablegames;
 
 
 public class EnemyMovementScript : MonoBehaviour
@@ -14,15 +16,30 @@ public class EnemyMovementScript : MonoBehaviour
     public Transform CornerPinky;
     public Transform CornerBlinky;
     public Transform CornerClyde;
-    public GameObject[] inky, pinky, blinky, clyde;// create multiple game objects
+    public float Speed;
+    public GameObject[] inky, pinky, blinky, clyde; // create multiple game objects
 
     // Start is called before the first frame update
+
     void Start()
     {
         nav = GetComponent<NavMeshAgent>();// set nav mesh to nav
 
-       
+        egFloat InkySpeed = Speed;
+        VariableHandler.Instance.Register(ParameterStrings.InkyMoveSpeed, InkySpeed);
         
+        
+        egFloat PinkySpeed = Speed;
+        VariableHandler.Instance.Register(ParameterStrings.PinkyMoveSpeed, PinkySpeed);
+
+        
+        egFloat BlinkySpeed = Speed;
+        VariableHandler.Instance.Register(ParameterStrings.BlinkyMoveSpeed, BlinkySpeed);
+
+        
+        egFloat ClydeSpeed = Speed;
+        VariableHandler.Instance.Register(ParameterStrings.ClydeMoveSpeed, ClydeSpeed);
+
     }
 
     // Update is called once per frame
@@ -49,21 +66,34 @@ public class EnemyMovementScript : MonoBehaviour
     {
         if (gameObject.name == "Inky")//track the front of the player
         {
+            egFloat InkySpeed = Speed;
+            VariableHandler.Instance.Register(ParameterStrings.InkyMoveSpeed, InkySpeed);
+            nav.speed = InkySpeed;
             nav.SetDestination(CornerInky.position);
+
         }
 
         if (gameObject.name == "Pinky")//track the front of the player
         {
+            egFloat PinkySpeed = Speed;
+            VariableHandler.Instance.Register(ParameterStrings.PinkyMoveSpeed, PinkySpeed);
+            nav.speed = PinkySpeed;
             nav.SetDestination(CornerPinky.position);
         }
 
         if (gameObject.name == "Blinky")//track the front of the player
         {
+            egFloat BlinkySpeed = Speed;
+            VariableHandler.Instance.Register(ParameterStrings.BlinkyMoveSpeed, BlinkySpeed);
+            nav.speed = BlinkySpeed;
             nav.SetDestination(CornerBlinky.position);
         }
 
         if (gameObject.name == "Clyde")//track the front of the player
         {
+            egFloat ClydeSpeed = Speed;
+            VariableHandler.Instance.Register(ParameterStrings.ClydeMoveSpeed, ClydeSpeed);
+            nav.speed = ClydeSpeed;
             nav.SetDestination(CornerClyde.position);
         }
     }
