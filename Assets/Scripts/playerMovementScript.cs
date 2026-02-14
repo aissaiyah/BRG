@@ -53,6 +53,7 @@ public class playerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(pelletWin <= 1)// if 1 or no pellet left win the game load win scene
         {
             win = true;
@@ -76,6 +77,8 @@ public class playerMovementScript : MonoBehaviour
     public void FixedUpdate()// move the player object at a certain speed
     {
 
+        
+
        // transform.rotation = Quaternion.Euler(0, rotate, 0);
         if (moving)
         {
@@ -96,24 +99,26 @@ public class playerMovementScript : MonoBehaviour
         print("2DInput = "  + input.ToString());
         print("2DExtent max = " + sukiInput.GetExtentMax2D("righthand") + " min = " + sukiInput.GetExtentMin("righthand"));
         
-        if (Input.GetKey(KeyCode.W) || input.y > yThreshold)// control direction velocity is enforced
+        if (Input.GetKey(KeyCode.W)  || input.x > yThreshold)// control direction velocity is enforced
         {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, speed) ;
+            rb.velocity = new Vector3(rb.velocity.x * 0, rb.velocity.y, -speed) ;
             moving = true;
         }
-        if (Input.GetKey(KeyCode.S) || input.y < -yThreshold)
+        if (Input.GetKey(KeyCode.S)  || input.x < -yThreshold)
         {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, -speed) ;
+            
+            rb.velocity = new Vector3(rb.velocity.x * 0, rb.velocity.y, speed) ;
             moving = true;
         }
-        if (Input.GetKey(KeyCode.A) || input.x < -xThreshold)// control direction velocity is enforced
+        if (Input.GetKey(KeyCode.A)  || input.y < -xThreshold)// control direction velocity is enforced
         {
-            rb.velocity = new Vector3(speed , rb.velocity.y,rb.velocity.z ) ;
+            rb.velocity = new Vector3(-speed , rb.velocity.y,rb.velocity.z * 0) ;
 	        moving = true;
         }
-        if (Input.GetKey(KeyCode.D) || input.x > xThreshold)
+        if (Input.GetKey(KeyCode.D)  || input.y > xThreshold)
         {
-            rb.velocity = new Vector3(-speed , rb.velocity.y,rb.velocity.z ) ;
+            
+            rb.velocity = new Vector3(speed , rb.velocity.y , rb.velocity.z * 0) ;
 	        moving = true;
         }
 
