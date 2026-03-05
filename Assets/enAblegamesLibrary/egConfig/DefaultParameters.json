@@ -114,7 +114,7 @@
  	    {
                 "min_": 0.0,
                 "max_": 8.0,
-                "value_": 4.0,
+                "value_": 3.0,
                 "tick_": 1.0,
                 "name": "Player Starting Speed",
                 "alias": "Player Starting Speed",

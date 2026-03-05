@@ -14,18 +14,33 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelSelect.unity
     guid: 25f4c4ae4f6c24a4c847a819b3807007
-  - enabled: 1
-    path: Assets/Scenes/GameScene.unity
+  - enabled: 0
+    path: Assets/Scenes/Map2.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Map_2.unity
     guid: 75bb1ea86704fe04487ffac3c69d940b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Map_3.unity
     guid: 4fc91d9cd73d444088ad862bfb52c609
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Map_4.unity
     guid: 60460aa7b2ae84ed9ade1f02fdc21e3b
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 4412593e7234e334a8a05a305e2ea84c
+  - enabled: 1
+    path: Assets/Scenes/Exercise 3.unity
+    guid: 65999bb4c68ffbe439e702f5e01dc648
+  - enabled: 1
+    path: Assets/Scenes/Exercise 2.unity
+    guid: f6282fe0f75510446a8b6dcf6ba402fa
+  - enabled: 1
+    path: Assets/Scenes/Exercise 1.unity
+    guid: 831a612aa8951df4699feb05f8d67cfb
+  - enabled: 1
+    path: Assets/Scenes/winScene.unity
+    guid: 41fb2235ae4be6a4f98ddc1bcbcd38af
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 75577dd3af5834b1ca92abe44bf1fde8, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: f2a16e49ef5154e2084a0dc2dd4f55e0, type: 2}

@@ -7,8 +7,22 @@ using UnityEngine.SceneManagement;
 
 public class GMScript : MonoBehaviour
 {
+    public static GMScript Instance;
     public TMP_Text score;// sets tmp text as codable
     // Start is called before the first frame update
+    
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -34,6 +48,15 @@ public class GMScript : MonoBehaviour
             playerMovementScript.pelletCount = 0;
             playerMovementScript.win = false;
             Destroy(gameObject);
+        }
+        if (Input.GetKeyDown(KeyCode.L))// if R is pressed reset game reset all values destroy this object
+        {
+            SceneManager.LoadScene("LevelSelect");
+        }
+        if (Input.GetKeyDown(KeyCode.M))// if R is pressed reset game reset all values destroy this object
+        {
+
+            SceneManager.LoadScene("enAblegamesLibrary/Scenes/eag_MainMenu");
         }
 
     }

@@ -1213,7 +1213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114000014122898144, guid: c86ce7050fd53154dba6659271ee3da0, type: 3}
       propertyPath: Game
-      value: SpaceShooter
+      value: eag_MainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 114000014122898144, guid: c86ce7050fd53154dba6659271ee3da0, type: 3}
       propertyPath: socket

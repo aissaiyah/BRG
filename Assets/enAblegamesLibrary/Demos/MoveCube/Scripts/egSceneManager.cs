@@ -8,7 +8,7 @@ public class egSceneManager : MonoBehaviour
 {
 
     public static UnityEvent OnSceneChange = new UnityEvent();
-	public string GameSceneName  = "LevelSelect";
+	public string GameSceneName  = "GameScene";
 
     private static egSceneManager instance;
     public static egSceneManager Instance
@@ -49,10 +49,10 @@ public class egSceneManager : MonoBehaviour
     {
         //GameObject canvas = GameObject.FindGameObjectWithTag("mainCanvas");
         Raise(OnSceneChange);
-		if (GameSceneName != null)
-			SceneManager.LoadScene(GameSceneName);
-		else
-			print ("Missing game scene name to load.");
+        if (GameSceneName != null)
+            SceneManager.LoadScene("LevelSelect");
+        else
+            print("Missing game scene name to load.");
     }
 
     public void LoadScene(string name)

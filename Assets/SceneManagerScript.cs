@@ -22,14 +22,14 @@ public class SceneManagerScript : MonoBehaviour
     }
     public void Map1()
     {
-        SceneManager.LoadScene("Map_2");
+        SceneManager.LoadScene("Exercise 1");
     }
     public void Map2()
     {
-        SceneManager.LoadScene("Map_3");
+        SceneManager.LoadScene("Exercise 2");
     }
     public void Map3()
     {
-        SceneManager.LoadScene("Map_4");
+        SceneManager.LoadScene("Exercise 3");
     }
 }

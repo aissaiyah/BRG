@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Tracking Avatar
+  - Teleporter1
+  - Teleporter2
+  - SmallPellet
+  - BigPellet
   layers:
   - Default
   - TransparentFX

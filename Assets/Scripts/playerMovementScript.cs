@@ -28,8 +28,13 @@ public class playerMovementScript : MonoBehaviour
     public int pelletWin;
     public static bool win;
     public Transform PlayerObject;
+    public Transform teleport1;
+    public Transform teleport2;
+    public float teleportCooldown = 1f; // seconds
+    private bool canTeleport = true;
     [SerializeField] float xThreshold = .3f;
     [SerializeField] float yThreshold = .3f;
+    public int winShow;
     
     SukiInput sukiInput;
     // Start is called before the first frame update
@@ -44,20 +49,17 @@ public class playerMovementScript : MonoBehaviour
        // transform = GetComponent<Transform>();
       ///  speed = 9;
         moving = false;
-        pelletWin = 492;// condition for ending the game via eating all pelletts
-        egFloat PlayerSpeed = 5f;
-        VariableHandler.Instance.Register(ParameterStrings.PlayerMoveSpeed, PlayerSpeed);
-        speed = PlayerSpeed;
+        pelletWin = 984;// condition for ending the game via eating all pelletts
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        winShow = pelletWin;
         if(pelletWin <= 1)// if 1 or no pellet left win the game load win scene
         {
             win = true;
-            SceneManager.LoadScene("winScene");
+           // SceneManager.LoadScene("winScene");
         }
 
 
@@ -81,12 +83,22 @@ public class playerMovementScript : MonoBehaviour
 
        // transform.rotation = Quaternion.Euler(0, rotate, 0);
         if (moving)
-        {
-            speed = 5;
+        {    
+            speed = SMScript.PlayerSpeed;
+            
+
+            VariableHandler.Instance.Register(ParameterStrings.PlayerMoveSpeed, (egFloat)speed);
+           // egFloat PlayerSpeed = SMScript.speed;
+            //VariableHandler.Instance.Register(ParameterStrings.PlayerMoveSpeed, PlayerSpeed);
+           // speed = PlayerSpeed;
+           /* egFloat PlayerSpeed = SMScript.speed;
+            VariableHandler.Instance.Register(ParameterStrings.PlayerMoveSpeed, PlayerSpeed);
+            
+            speed = PlayerSpeed;*/
         }
         if (!moving)
         {
-            speed = 0;
+          //  speed = 0;
         }
         
         var input = Vector2.zero;
@@ -146,19 +158,41 @@ public class playerMovementScript : MonoBehaviour
     void OnTriggerEnter(Collider collider)// on collection with the 7th layer increase pellet by 10 and delete it
     {
 
-        if(collider.gameObject.layer == 7)
+        if(collider.gameObject.CompareTag("SmallPellet"))
         {
             Destroy(collider.gameObject);
             pelletCount += 10;
             pelletWin -= 1;
         }
 
-        if (collider.gameObject.layer == 9)//power pellete increase count more and be able to kill ghosts
+        if (collider.gameObject.CompareTag("BigPellet"))//power pellete increase count more and be able to kill ghosts
         {
             Destroy(collider.gameObject);
             pelletCount += 50;
             eatMode = true;
             pelletWin -= 1;
         }
+
+        if (!canTeleport) return;
+
+        if (collider.gameObject.CompareTag("Teleporter1"))
+        {
+            StartCoroutine(TeleportWithDelay(teleport2.position));
+        }
+        else if (collider.gameObject.CompareTag("Teleporter2"))
+        {
+            StartCoroutine(TeleportWithDelay(teleport1.position));
+        }
+    }
+    
+    private IEnumerator TeleportWithDelay(Vector3 targetPosition)
+    {
+        canTeleport = false;
+
+        PlayerObject.position = targetPosition;
+
+        yield return new WaitForSeconds(teleportCooldown);
+
+        canTeleport = true;
     }
 }
