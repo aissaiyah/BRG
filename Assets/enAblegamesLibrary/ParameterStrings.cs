@@ -16,4 +16,5 @@ public class ParameterStrings
 	public static string PinkyMoveSpeed = "PinkyMoveSpeed";
 	public static string ClydeMoveSpeed = "ClydeMoveSpeed";
 	public static string PlayerMoveSpeed = "PlayerMoveSpeed";
+	public static string sukiFile = "Suki file";
 }

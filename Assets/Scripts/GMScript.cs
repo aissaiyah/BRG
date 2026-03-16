@@ -8,45 +8,48 @@ using UnityEngine.SceneManagement;
 public class GMScript : MonoBehaviour
 {
     public static GMScript Instance;
+    public int pacmanHighScore;
     public TMP_Text score;// sets tmp text as codable
+    public playerMovementScript playerMovement;
     // Start is called before the first frame update
     
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance is not null &&  Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        score.text = "Highscore: " + playerMovementScript.pelletCount;// change text to include numerical score in highscore
+        playerMovement ??= FindObjectOfType<playerMovementScript>();
+        //highscore = 
+        score.text = "Highscore: " + pacmanHighScore;// change text to include numerical score in highscore
 
         if(Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-        if (playerMovementScript.win)// if the game ended print high score and new position
+        if (playerMovement.win)// if the game ended print high score and new position
         {
-            score.text = "Your Highscore is: " + playerMovementScript.pelletCount;
+            pacmanHighScore = pacmanHighScore;
+            score.text = "Your Highscore is: " + pacmanHighScore;
             score.transform.position = new Vector3(450f, 300f, 0f);
         }
         if (Input.GetKeyDown(KeyCode.R))// if R is pressed reset game reset all values destroy this object
         {
             SceneManager.LoadScene("SampleScene");
-            playerMovementScript.pelletCount = 0;
-            playerMovementScript.win = false;
+            pacmanHighScore = 0;
+            playerMovement.win = false;
             Destroy(gameObject);
         }
         if (Input.GetKeyDown(KeyCode.L))// if R is pressed reset game reset all values destroy this object
@@ -56,7 +59,7 @@ public class GMScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))// if R is pressed reset game reset all values destroy this object
         {
 
-            SceneManager.LoadScene("enAblegamesLibrary/Scenes/eag_MainMenu");
+            SceneManager.LoadScene("Scenes/eag_MainMenu");
         }
 
     }

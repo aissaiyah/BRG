@@ -17,16 +17,18 @@ using Enablegames;
 using Enablegames.Suki;
 public class playerMovementScript : MonoBehaviour
 {
-    public float speed;
+    public egFloat speed = 0f;
     public Vector3 moveDirection;
     public Rigidbody rb;
     public bool moving;
+
+    private egString sukiFile = "R_Hand.suki";
   //  public Transform transform;
     public float rotate;
-    public static int pelletCount;
+    
     public static bool eatMode;
     public int pelletWin;
-    public static bool win;
+    public bool win;
     public Transform PlayerObject;
     public Transform teleport1;
     public Transform teleport2;
@@ -41,6 +43,7 @@ public class playerMovementScript : MonoBehaviour
     public void Awake()
     {
         sukiInput = SukiInput.Instance;
+        
     }
     void Start()
     {
@@ -50,6 +53,8 @@ public class playerMovementScript : MonoBehaviour
       ///  speed = 9;
         moving = false;
         pelletWin = 984;// condition for ending the game via eating all pelletts
+        GMScript.Instance.pacmanHighScore = 0;
+
     }
 
     // Update is called once per frame
@@ -61,7 +66,7 @@ public class playerMovementScript : MonoBehaviour
             win = true;
            // SceneManager.LoadScene("winScene");
         }
-
+        
 
         if (Input.GetAxisRaw("Horizontal") > 0)// if left or right rotate the object and round to a whole number
         {
@@ -86,8 +91,10 @@ public class playerMovementScript : MonoBehaviour
         {    
             speed = SMScript.PlayerSpeed;
             
+            
 
-            VariableHandler.Instance.Register(ParameterStrings.PlayerMoveSpeed, (egFloat)speed);
+            VariableHandler.Instance.Register(ParameterStrings.PlayerMoveSpeed, speed);
+            VariableHandler.Instance.Register(ParameterStrings.sukiFile, sukiFile);
            // egFloat PlayerSpeed = SMScript.speed;
             //VariableHandler.Instance.Register(ParameterStrings.PlayerMoveSpeed, PlayerSpeed);
            // speed = PlayerSpeed;
@@ -100,7 +107,7 @@ public class playerMovementScript : MonoBehaviour
         {
           //  speed = 0;
         }
-        
+       
         var input = Vector2.zero;
 
         if (sukiInput.Location2DExists("righthand"))
@@ -161,14 +168,14 @@ public class playerMovementScript : MonoBehaviour
         if(collider.gameObject.CompareTag("SmallPellet"))
         {
             Destroy(collider.gameObject);
-            pelletCount += 10;
+            GMScript.Instance.pacmanHighScore += 10;
             pelletWin -= 1;
         }
 
         if (collider.gameObject.CompareTag("BigPellet"))//power pellete increase count more and be able to kill ghosts
         {
             Destroy(collider.gameObject);
-            pelletCount += 50;
+            GMScript.Instance.pacmanHighScore += 50;
             eatMode = true;
             pelletWin -= 1;
         }

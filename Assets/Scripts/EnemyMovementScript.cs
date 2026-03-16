@@ -15,11 +15,13 @@ public class EnemyMovementScript : MonoBehaviour
     public Transform CornerPinky;
     public Transform CornerBlinky;
     public Transform CornerClyde;
+    private playerMovementScript playerMovement;
 
     bool eatRoutineRunning = false;
 
     void Start()
     {
+        playerMovement ??= FindObjectOfType<playerMovementScript>();
         nav = GetComponent<NavMeshAgent>();
 
         StartCoroutine(EnemyCycle());
@@ -117,12 +119,12 @@ public class EnemyMovementScript : MonoBehaviour
             if (!playerMovementScript.eatMode)
             {
                 Destroy(collision.gameObject);
-                playerMovementScript.win = true;
+                playerMovement.win = true;
             }
             else
             {
                 Destroy(gameObject);
-                playerMovementScript.pelletCount += 200;
+                GMScript.Instance.pacmanHighScore += 200;
             }
         }
     }

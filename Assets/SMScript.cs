@@ -15,6 +15,12 @@ public class SMScript : MonoBehaviour
     public TMP_Text blinkyText;
     public TMP_Text pinkyText;
     public TMP_Text clydeText;
+    public TMP_Text exerciseScore1;
+    public TMP_Text exerciseScore2;
+    public TMP_Text exerciseScore3;
+    public TMP_Text pacmanScore;
+    public GameObject highScoreMenu;
+    
 
     [Header("Sliders")]
     public Slider playerSlider;
@@ -35,7 +41,7 @@ public class SMScript : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+           // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -62,7 +68,17 @@ public class SMScript : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        try
+        {
+            
+        }
+        catch
+        {
+            
+        }
+        
+
+    if (Input.GetKeyDown(KeyCode.P))
         {
             paused = !paused;
             
@@ -108,5 +124,17 @@ public class SMScript : MonoBehaviour
     {
         ClydeSpeed = value;
         clydeText.text = value.ToString("F1");
+    }
+
+    public void highScoreOpen()
+    {
+        pacmanScore.text = GMScript.Instance.pacmanHighScore.ToString();
+        highScoreMenu.SetActive(true);
+        
+    }
+
+    public void highScoreClose()
+    {
+        highScoreMenu.SetActive(false);
     }
 }

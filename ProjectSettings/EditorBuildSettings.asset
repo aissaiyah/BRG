@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/enAblegamesLibrary/Scenes/eag_Login.unity
     guid: 5c2c5a38237e05a4695a595f659d85e9
-  - enabled: 1
+  - enabled: 0
     path: Assets/enAblegamesLibrary/Scenes/eag_MainMenu.unity
     guid: f352481a3b3e8084a854581b92e3c17a
   - enabled: 1
@@ -41,6 +41,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/winScene.unity
     guid: 41fb2235ae4be6a4f98ddc1bcbcd38af
+  - enabled: 1
+    path: Assets/Scenes/eag_MainMenu.unity
+    guid: fbf6f51bf8de2b3459bde54e78e01866
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 75577dd3af5834b1ca92abe44bf1fde8, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: f2a16e49ef5154e2084a0dc2dd4f55e0, type: 2}
