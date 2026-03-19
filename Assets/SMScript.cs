@@ -20,7 +20,12 @@ public class SMScript : MonoBehaviour
     public TMP_Text exerciseScore3;
     public TMP_Text pacmanScore;
     public GameObject highScoreMenu;
-    
+
+    [Header("Timer")]
+    public Canvas popUpCanvas;
+    public float timerDuration = 30f;
+    private float timer;
+    private bool timerPauseEnabled = false;
 
     [Header("Sliders")]
     public Slider playerSlider;
@@ -36,29 +41,32 @@ public class SMScript : MonoBehaviour
     public static float PinkySpeed = 0f;
     public static float ClydeSpeed = 0f;
 
+    public AudioSource music;
+    public bool muted;
+
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-           // DontDestroyOnLoad(gameObject);
-        }
-        else
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        if (Instance is not null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
     }
 
     void Start()
     {
-        // Initialize values from sliders
+        music.volume = 1;
+        timer = timerDuration;
+        popUpCanvas.gameObject.SetActive(false);
+
         UpdatePlayerSpeed(playerSlider.value);
         UpdateInkySpeed(inkySlider.value);
         UpdateBlinkySpeed(blinkySlider.value);
         UpdatePinkySpeed(pinkySlider.value);
         UpdateClydeSpeed(clydeSlider.value);
 
-        // Add listeners
         playerSlider.onValueChanged.AddListener(UpdatePlayerSpeed);
         inkySlider.onValueChanged.AddListener(UpdateInkySpeed);
         blinkySlider.onValueChanged.AddListener(UpdateBlinkySpeed);
@@ -68,20 +76,35 @@ public class SMScript : MonoBehaviour
 
     public void Update()
     {
-        try
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            
+            muted = !muted;
         }
-        catch
-        {
-            
-        }
-        
 
-    if (Input.GetKeyDown(KeyCode.P))
+        if (muted)
+        {
+            music.volume = 0;
+        }
+        else if (!muted)
+        {
+            music.volume = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            timerPauseEnabled = !timerPauseEnabled;
+            Debug.Log("Timer pause enabled: " + timerPauseEnabled);
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
         {
             paused = !paused;
-            
+
+            if (!paused)
+            {
+                popUpCanvas.gameObject.SetActive(false);
+                timer = timerDuration;
+            }
         }
 
         if (paused)
@@ -93,6 +116,19 @@ public class SMScript : MonoBehaviour
         {
             Time.timeScale = 1;
             pause.SetActive(false);
+        }
+
+        // Only run timer if J has enabled it and game is not paused
+        if (timerPauseEnabled && !paused)
+        {
+            timer -= Time.deltaTime;
+
+            if (timer <= 0)
+            {
+                popUpCanvas.gameObject.SetActive(true);
+                paused = true;
+                timer = timerDuration;
+            }
         }
     }
 
@@ -130,7 +166,6 @@ public class SMScript : MonoBehaviour
     {
         pacmanScore.text = GMScript.Instance.pacmanHighScore.ToString();
         highScoreMenu.SetActive(true);
-        
     }
 
     public void highScoreClose()

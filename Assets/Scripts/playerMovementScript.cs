@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 //using eaglib;
@@ -32,6 +33,8 @@ public class playerMovementScript : MonoBehaviour
     public Transform PlayerObject;
     public Transform teleport1;
     public Transform teleport2;
+    public AudioSource pelletEat;
+    public AudioSource teleport;
     public float teleportCooldown = 1f; // seconds
     private bool canTeleport = true;
     [SerializeField] float xThreshold = .3f;
@@ -52,7 +55,23 @@ public class playerMovementScript : MonoBehaviour
        // transform = GetComponent<Transform>();
       ///  speed = 9;
         moving = false;
-        pelletWin = 984;// condition for ending the game via eating all pelletts
+        if (SceneManager.GetActiveScene().name == "Exercise 1")
+        {
+            
+        }
+        else if (SceneManager.GetActiveScene().name == "Exercise 2")
+        {
+            pelletWin = 160;
+        }
+        else if (SceneManager.GetActiveScene().name == "Exercise 3")
+        {
+            pelletWin = 180;
+        }
+        else
+        {
+            pelletWin = 984;
+        }
+        // condition for ending the game via eating all pelletts
         GMScript.Instance.pacmanHighScore = 0;
 
     }
@@ -109,36 +128,56 @@ public class playerMovementScript : MonoBehaviour
         }
        
         var input = Vector2.zero;
-
         if (sukiInput.Location2DExists("righthand"))
         {
             input = sukiInput.GetLocation2D("righthand");
             input = input * 2 - new Vector2(1, 1);
         }
+/*
+
+
+        
+                if (sukiInput.Location2DExists("lefthand"))
+        {
+            input = sukiInput.GetLocation2D("lefthand");
+            input = input * 2 - new Vector2(1, 1);
+        }
+        else if (sukiInput.Location2DExists("RKnee"))
+        {
+            input = sukiInput.GetLocation2D("RKnee");
+            input = input * 2 - new Vector2(1, 1);
+        }
+        else if (sukiInput.Location2DExists("LKnee"))
+        {
+            input = sukiInput.GetLocation2D("LKnee");
+            input = input * 2 - new Vector2(1, 1);
+        }*/
         print("2DInput = "  + input.ToString());
         print("2DExtent max = " + sukiInput.GetExtentMax2D("righthand") + " min = " + sukiInput.GetExtentMin("righthand"));
         
-        if (Input.GetKey(KeyCode.W)  || input.x > yThreshold)// control direction velocity is enforced
+        if (Input.GetKey(KeyCode.W) || input.x > yThreshold)
         {
-            rb.velocity = new Vector3(rb.velocity.x * 0, rb.velocity.y, -speed) ;
+            rb.velocity = new Vector3(rb.velocity.x * 0, rb.velocity.y, -speed);
+            Debug.Log("UP");
             moving = true;
         }
-        if (Input.GetKey(KeyCode.S)  || input.x < -yThreshold)
+        else if (Input.GetKey(KeyCode.S) || input.x < -yThreshold)
         {
-            
-            rb.velocity = new Vector3(rb.velocity.x * 0, rb.velocity.y, speed) ;
+            Debug.Log("Down");
+            rb.velocity = new Vector3(rb.velocity.x * 0, rb.velocity.y, speed);
             moving = true;
         }
-        if (Input.GetKey(KeyCode.A)  || input.y < -xThreshold)// control direction velocity is enforced
+        else if (Input.GetKey(KeyCode.A) || input.y > xThreshold)
         {
-            rb.velocity = new Vector3(-speed , rb.velocity.y,rb.velocity.z * 0) ;
-	        moving = true;
+            Debug.Log("Left");
+            rb.velocity = new Vector3(speed, rb.velocity.y, rb.velocity.z * 0);
+            moving = true;
         }
-        if (Input.GetKey(KeyCode.D)  || input.y > xThreshold)
+        else if (Input.GetKey(KeyCode.D) || input.y < -xThreshold)
         {
-            
-            rb.velocity = new Vector3(speed , rb.velocity.y , rb.velocity.z * 0) ;
-	        moving = true;
+            rb.velocity = new Vector3(-speed, rb.velocity.y, rb.velocity.z * 0);
+            Debug.Log("Right");
+            moving = true;
         }
 
         if (Input.GetKeyUp(KeyCode.W) || (input.y < -yThreshold && input.y > -yThreshold))// when not holding the button down stop moving and applying speed
@@ -170,6 +209,7 @@ public class playerMovementScript : MonoBehaviour
             Destroy(collider.gameObject);
             GMScript.Instance.pacmanHighScore += 10;
             pelletWin -= 1;
+            pelletEat.Play();
         }
 
         if (collider.gameObject.CompareTag("BigPellet"))//power pellete increase count more and be able to kill ghosts
@@ -178,16 +218,19 @@ public class playerMovementScript : MonoBehaviour
             GMScript.Instance.pacmanHighScore += 50;
             eatMode = true;
             pelletWin -= 1;
+            pelletEat.Play();
         }
 
         if (!canTeleport) return;
 
         if (collider.gameObject.CompareTag("Teleporter1"))
         {
+            teleport.Play();
             StartCoroutine(TeleportWithDelay(teleport2.position));
         }
         else if (collider.gameObject.CompareTag("Teleporter2"))
         {
+            teleport.Play();
             StartCoroutine(TeleportWithDelay(teleport1.position));
         }
     }

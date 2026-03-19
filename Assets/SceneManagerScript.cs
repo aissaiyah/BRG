@@ -22,4 +22,26 @@ public class SceneManagerScript : MonoBehaviour
     {
         SceneManager.LoadScene("Exercise 3");
     }
+    public void Map5()
+    {
+        SceneManager.LoadScene("Map_5");
+    }
+    public void Map6()
+    {
+        SceneManager.LoadScene("Map_6");
+    }
+    public void Map7()
+    {
+        SceneManager.LoadScene("Map_7");
+    }
+    
+    public void Collect()
+    {
+        SceneManager.LoadScene("GameScene2");
+    }
+    
+    public void Parameters()
+    {
+        SceneManager.LoadScene("enAblegamesLibrary/Scenes/eag_MainMenu");
+    }
 }

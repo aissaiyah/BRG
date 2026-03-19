@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Enablegames;
+using UnityEngine.SceneManagement;
 
 public class EnemyMovementScript : MonoBehaviour
 {
@@ -15,7 +16,11 @@ public class EnemyMovementScript : MonoBehaviour
     public Transform CornerPinky;
     public Transform CornerBlinky;
     public Transform CornerClyde;
+    public AudioSource death;
     private playerMovementScript playerMovement;
+
+    public float speedIncreaseAmount = 0.5f;
+    private float speedMultiplier = 1f;
 
     bool eatRoutineRunning = false;
 
@@ -25,11 +30,15 @@ public class EnemyMovementScript : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
 
         StartCoroutine(EnemyCycle());
+        if (SceneManager.GetActiveScene().name == "Exercise 2")
+        {
+            StartCoroutine(SpeedIncreaseLoop());
+        }
+       
     }
 
     void Update()
     {
-        // Handle eat mode timer safely
         if (playerMovementScript.eatMode && !eatRoutineRunning)
         {
             StartCoroutine(EatModeTimer());
@@ -48,26 +57,36 @@ public class EnemyMovementScript : MonoBehaviour
         }
     }
 
+    IEnumerator SpeedIncreaseLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(40f);
+            speedMultiplier += speedIncreaseAmount;
+            Debug.Log("Speed multiplier increased to: " + speedMultiplier);
+        }
+    }
+
     void Scatter()
     {
         if (gameObject.name == "Inky")
         {
-            SetGhostSpeed(SMScript.InkySpeed, ParameterStrings.InkyMoveSpeed);
+            SetGhostSpeed(SMScript.InkySpeed * speedMultiplier, ParameterStrings.InkyMoveSpeed);
             nav.SetDestination(CornerInky.position);
         }
         else if (gameObject.name == "Pinky")
         {
-            SetGhostSpeed(SMScript.PinkySpeed, ParameterStrings.PinkyMoveSpeed);
+            SetGhostSpeed(SMScript.PinkySpeed * speedMultiplier, ParameterStrings.PinkyMoveSpeed);
             nav.SetDestination(CornerPinky.position);
         }
         else if (gameObject.name == "Blinky")
         {
-            SetGhostSpeed(SMScript.BlinkySpeed, ParameterStrings.BlinkyMoveSpeed);
+            SetGhostSpeed(SMScript.BlinkySpeed * speedMultiplier, ParameterStrings.BlinkyMoveSpeed);
             nav.SetDestination(CornerBlinky.position);
         }
         else if (gameObject.name == "Clyde")
         {
-            SetGhostSpeed(SMScript.ClydeSpeed, ParameterStrings.ClydeMoveSpeed);
+            SetGhostSpeed(SMScript.ClydeSpeed * speedMultiplier, ParameterStrings.ClydeMoveSpeed);
             nav.SetDestination(CornerClyde.position);
         }
     }
@@ -118,11 +137,13 @@ public class EnemyMovementScript : MonoBehaviour
         {
             if (!playerMovementScript.eatMode)
             {
+                death.Play();
                 Destroy(collision.gameObject);
                 playerMovement.win = true;
             }
             else
             {
+                death.Play();
                 Destroy(gameObject);
                 GMScript.Instance.pacmanHighScore += 200;
             }

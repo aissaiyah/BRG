@@ -46959,7 +46959,7 @@ GameObject:
   - component: {fileID: 6667888344342983190}
   m_Layer: 7
   m_Name: Pellets
-  m_TagString: Untagged
+  m_TagString: SmallPellet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46977,7 +46977,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8261781262763697395}
   - {fileID: 8737104427280642910}
   - {fileID: 5060076609631763727}
   - {fileID: 5536515698314453784}
@@ -59934,65 +59933,3 @@ MonoBehaviour:
   points: 1
   isMegaPellet: 0
   megaPelletPoints: 50
---- !u!1001 &5527699975374709991
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6667888344342983190}
-    m_Modifications:
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 26.096893
-      objectReference: {fileID: 0}
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -11.650168
-      objectReference: {fileID: 0}
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 16.227066
-      objectReference: {fileID: 0}
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7822558131718213899, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-      propertyPath: m_Name
-      value: Cube
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
---- !u!4 &8261781262763697395 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4472614969097519124, guid: f11d18c138be94e45b924b6f931bf503, type: 3}
-  m_PrefabInstance: {fileID: 5527699975374709991}
-  m_PrefabAsset: {fileID: 0}

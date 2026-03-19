@@ -15,13 +15,14 @@ public class GMScript : MonoBehaviour
     
     void Awake()
     {
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
         if (Instance is not null &&  Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+
     }
     void Start()
     {
@@ -42,7 +43,7 @@ public class GMScript : MonoBehaviour
         if (playerMovement.win)// if the game ended print high score and new position
         {
             pacmanHighScore = pacmanHighScore;
-            score.text = "Your Highscore is: " + pacmanHighScore;
+            score.text = "YOU WIN!!!! Your Highscore is: " + pacmanHighScore;
             score.transform.position = new Vector3(450f, 300f, 0f);
         }
         if (Input.GetKeyDown(KeyCode.R))// if R is pressed reset game reset all values destroy this object
