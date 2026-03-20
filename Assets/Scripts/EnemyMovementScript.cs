@@ -139,7 +139,7 @@ public class EnemyMovementScript : MonoBehaviour
             {
                 death.Play();
                 Destroy(collision.gameObject);
-                playerMovement.win = true;
+                playerMovement.lost = true;
             }
             else
             {
