@@ -24,7 +24,12 @@ public class Pellet : MonoBehaviour
     {
         // Prevent collecting the same pellet twice
         if (isCollected) return;
-        
+
+        // Skip if this pellet has SmallPellet/BigPellet tag
+        // (playerMovementScript handles those and notifies PelletManager)
+        if (gameObject.CompareTag("SmallPellet") || gameObject.CompareTag("BigPellet"))
+            return;
+
         if (other.CompareTag("Player"))
         {
             CollectPellet();

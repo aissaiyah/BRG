@@ -58,11 +58,19 @@ public class PelletManager : MonoBehaviour
     void OnAllPelletsCollected()
     {
         Debug.Log("All pellets collected! Level complete!");
-        // You can trigger level completion here
+
+        // Set win on the player movement script
+        playerMovementScript player = FindObjectOfType<playerMovementScript>();
+        if (player != null)
+        {
+            player.win = true;
+        }
+
+        // Trigger level break or end game
         GameTimer timer = FindObjectOfType<GameTimer>();
         if (timer != null)
         {
-            timer.StartLevelBreak();
+            timer.EndGameSessionEarly();
         }
     }
     

@@ -30,6 +30,7 @@ public class playerMovementScript : MonoBehaviour
     public static bool eatMode;
     public int pelletWin;
     public bool win;
+    public bool lost;
     public Transform PlayerObject;
     public Transform teleport1;
     public Transform teleport2;
@@ -210,6 +211,10 @@ public class playerMovementScript : MonoBehaviour
             GMScript.Instance.pacmanHighScore += 10;
             pelletWin -= 1;
             pelletEat.Play();
+
+            // Also notify PelletManager if it exists
+            PelletManager pm = FindObjectOfType<PelletManager>();
+            if (pm != null) pm.CollectPellet(10);
         }
 
         if (collider.gameObject.CompareTag("BigPellet"))//power pellete increase count more and be able to kill ghosts
@@ -219,6 +224,10 @@ public class playerMovementScript : MonoBehaviour
             eatMode = true;
             pelletWin -= 1;
             pelletEat.Play();
+
+            // Also notify PelletManager if it exists
+            PelletManager pm = FindObjectOfType<PelletManager>();
+            if (pm != null) pm.CollectPellet(50);
         }
 
         if (!canTeleport) return;

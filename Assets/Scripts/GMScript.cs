@@ -9,59 +9,72 @@ public class GMScript : MonoBehaviour
 {
     public static GMScript Instance;
     public int pacmanHighScore;
-    public TMP_Text score;// sets tmp text as codable
+    public TMP_Text score;
     public playerMovementScript playerMovement;
-    // Start is called before the first frame update
-    
+
     void Awake()
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-        if (Instance is not null &&  Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
+
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         playerMovement ??= FindObjectOfType<playerMovementScript>();
-        //highscore = 
-        score.text = "Highscore: " + pacmanHighScore;// change text to include numerical score in highscore
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if (score != null)
         {
+            score.text = "Highscore: " + pacmanHighScore;
+        }
+
+        if (playerMovement != null && playerMovement.win)
+        {
+            if (score != null)
+            {
+                score.text = "YOU WIN! Your Score: " + pacmanHighScore;
+                score.transform.position = new Vector3(450f, 300f, 0f);
+            }
+        }
+        else if (playerMovement != null && playerMovement.lost)
+        {
+            if (score != null)
+            {
+                score.text = "GAME OVER! Your Score: " + pacmanHighScore;
+                score.transform.position = new Vector3(450f, 300f, 0f);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            pacmanHighScore = 0;
+            if (playerMovement != null)
+            {
+                playerMovement.win = false;
+                playerMovement.lost = false;
+            }
+            Time.timeScale = 1f;
+            Destroy(gameObject);
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-        if (playerMovement.win)// if the game ended print high score and new position
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            pacmanHighScore = pacmanHighScore;
-            score.text = "YOU WIN!!!! Your Highscore is: " + pacmanHighScore;
-            score.transform.position = new Vector3(450f, 300f, 0f);
-        }
-        if (Input.GetKeyDown(KeyCode.R))// if R is pressed reset game reset all values destroy this object
-        {
-            SceneManager.LoadScene("SampleScene");
-            pacmanHighScore = 0;
-            playerMovement.win = false;
-            Destroy(gameObject);
-        }
-        if (Input.GetKeyDown(KeyCode.L))// if R is pressed reset game reset all values destroy this object
-        {
+            Time.timeScale = 1f;
             SceneManager.LoadScene("LevelSelect");
         }
-        if (Input.GetKeyDown(KeyCode.M))// if R is pressed reset game reset all values destroy this object
+        if (Input.GetKeyDown(KeyCode.M))
         {
-
+            Time.timeScale = 1f;
             SceneManager.LoadScene("Scenes/eag_MainMenu");
         }
-
     }
 }
