@@ -156,7 +156,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.BRG
+    Standalone: com.Team-Respire.Ball-roll-Game
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -396,7 +396,7 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: 
+  cameraUsageDescription: '"For Game"'
   locationUsageDescription: 
   microphoneUsageDescription: 
   bluetoothUsageDescription: 
